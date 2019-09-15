@@ -1,5 +1,11 @@
 from enum import Enum
 
+BUT_ADDR = 0x38
+LCD_ADDR = 0x3f
+
+
+
+
 
 class shrtNamePin(Enum):
     #Shutdown
