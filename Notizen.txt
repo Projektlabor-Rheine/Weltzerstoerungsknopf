@@ -1,0 +1,9 @@
+Möglicher Kurzschluss an der Scherenplatine von Pin 19 (+5V) und Pin 20 (GND)
+
+Hauptplatine Anschaltschaltung
+PNP Transistor sollte muss 3V3 am collektor haben hat 5V auf der Platine (verändert)
+PNP Transistor (BC557) ist im Schaltplan Falschherum (verändert)
+für bessere schaltergebnisse sollte der Schalter endprellt werden
+FlipFlops sind durchgebrannt zugehörige schaltung wurde entfernt IO15 wurde direkt mit dem
+Schalter verbunden
+Zum Hochfahren muss der Schalter gedrückt werden bis der RPi die erste Konsolen ausgabe anzeigt min 5 sec.

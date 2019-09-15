@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="Anleitung.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="-20.476776"
+     inkscape:cy="708.52424"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="false" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.4956612px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 27.933992,9.5785952 H 177.7063 V 129.08293 H 27.933992 Z"
+       id="path841"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
+    <g
+       id="g4605"
+       transform="translate(-0.73411044,-4.5441914)">
+      <text
+         id="text12"
+         y="42.035866"
+         x="44.053768"
+         style="font-style:normal;font-weight:normal;font-size:18.3528595px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.45882148"
+         xml:space="preserve"><tspan
+           id="tspan26"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.34829712px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;stroke-width:0.45882148"
+           y="42.035866"
+           x="44.053768"
+           sodipodi:role="line">1. Schutzkappe</tspan><tspan
+           id="tspan4549"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.34829712px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;stroke-width:0.45882148"
+           y="65.094154"
+           x="44.053768"
+           sodipodi:role="line">     hochklappen</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:18.3528595px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.45882148"
+         x="39.138119"
+         y="92.035965"
+         id="text4555"><tspan
+           sodipodi:role="line"
+           x="39.138119"
+           y="92.035965"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.34829712px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;stroke-width:0.45882148"
+           id="tspan4553">2. Schalter nach </tspan><tspan
+           id="tspan4559"
+           sodipodi:role="line"
+           x="39.138119"
+           y="115.09425"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.34829712px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;stroke-width:0.45882148">     oben umlegen</tspan></text>
+    </g>
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path4575"
+       d="M 27.875398,139.43358 H 177.7649 v 69.62153 H 27.875398 Z"
+       style="fill:none;stroke:#000000;stroke-width:0.37847286px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:20.17878151px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.50446951"
+       x="39.30431"
+       y="168.71469"
+       id="text4581"><tspan
+         id="tspan4579"
+         sodipodi:role="line"
+         x="39.30431"
+         y="168.71469"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.17376518px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;stroke-width:0.50446951">3. Roten Knopf </tspan><tspan
+         sodipodi:role="line"
+         x="39.30431"
+         y="194.06705"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.17376518px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;stroke-width:0.50446951"
+         id="tspan4585">      drücken</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.37847286px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 27.875398,216.82595 H 177.7649 v 69.62153 H 27.875398 Z"
+       id="path4587"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
+    <text
+       id="text4593"
+       y="246.11775"
+       x="42.382256"
+       style="font-style:normal;font-weight:normal;font-size:20.19370079px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.50484252"
+       xml:space="preserve"><tspan
+         id="tspan4591"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.18868065px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;stroke-width:0.50484252"
+         y="246.11775"
+         x="42.382256"
+         sodipodi:role="line">4. Quittung</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.18868065px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;stroke-width:0.50484252"
+         y="271.48886"
+         x="42.382256"
+         sodipodi:role="line"
+         id="tspan4597">      entnehmen</tspan></text>
+  </g>
+</svg>

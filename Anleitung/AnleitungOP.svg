@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="210mm" height="297mm" version="1.1" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <path d="m27.934 9.5786h149.77v119.5h-149.77z" fill="none" stroke="#000" stroke-width=".49566px"/>
+ <g transform="translate(-.73411 -4.5442)" fill="#000000" font-family="Bahnschrift" font-size="18.348px" letter-spacing="0px" stroke-width=".45882" word-spacing="0px">
+  <text x="44.053768" y="42.035866" style="line-height:1.25" xml:space="preserve"><tspan x="44.053768" y="42.035866">1. Schutzkappe</tspan><tspan x="44.053768" y="65.094154">     hochklappen</tspan></text>
+  <text x="39.138119" y="92.035965" style="line-height:1.25" xml:space="preserve"><tspan x="39.138119" y="92.035965">2. Schalter nach </tspan><tspan x="39.138119" y="115.09425">     oben umlegen</tspan></text>
+ </g>
+ <path d="m27.875 139.43h149.89v69.622h-149.89z" fill="none" stroke="#000" stroke-width=".37847px"/>
+ <text x="39.30431" y="168.71469" fill="#000000" font-family="Bahnschrift" font-size="20.174px" letter-spacing="0px" stroke-width=".50447" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="39.30431" y="168.71469">3. Roten Knopf </tspan><tspan x="39.30431" y="194.06705">      drücken</tspan></text>
+ <path d="m27.875 216.83h149.89v69.622h-149.89z" fill="none" stroke="#000" stroke-width=".37847px"/>
+ <text x="42.382256" y="246.11775" fill="#000000" font-family="Bahnschrift" font-size="20.189px" letter-spacing="0px" stroke-width=".50484" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="42.382256" y="246.11775">4. Quittung</tspan><tspan x="42.382256" y="271.48886">      entnehmen</tspan></text>
+</svg>

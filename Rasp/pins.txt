@@ -1,0 +1,27 @@
+IOPin In/Out Bedeutung Steuersignal
+I02 und IO3 I²C
+IO4 Output HGB 
+IO17 Input Roter Knopf
+IO27 Input Handendschalter
+IO22 Output LED R DATA
+IO24 Output Schere M HIGH
+IO13 Output Schere M HIGH
+IO19 Input Schere ES
+IO6 Input Schere ES
+IO5 Input Schalter 
+IO11 Output Enable HIGH
+IO9 Output InB HIGH
+IO10 Output InA HIGH
+IO21 Output LED S DATA
+IO20 Output LED S DATA
+IO16 Output Nebel HIGH
+IO12 Output Weltschrift LOW
+IO23 Output Schritt 1 LOW
+IO8 Output Schritt 2 LOW
+IO25 Output Schritt 3 LOW
+IO7 und IO24 unbenutzt
+IO14 Output Shutdownservice isLOW
+IO15 Input Shutdown Active-Low
+
+
+Entprellkondensatoren 100nF

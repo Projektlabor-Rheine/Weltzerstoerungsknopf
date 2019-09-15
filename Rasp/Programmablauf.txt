@@ -1,0 +1,58 @@
+Start:
+Schere wird r�ckw�rts bewegt 
+Counter wird eingelesen
+
+Warten bis Scherenendschalter bet�tigt
+
+Hand wird r�ckw�rts bewegt
+
+Warten auf handendschalter
+
+
+Idle:
+Logo schriftzug blinkt gelegentlich
+LED Streifen muster l�uft auf und ab
+LED Ring ist deaktiviert
+Schritt 1 aktiviert
+Schritt 2 und 3 deaktiviert
+
+Warten auf umlegen des Schalters
+
+Logo schriftzug dauerhaft an
+LED Streifen Blinkt schneller
+LED Ring f�ngt an zu Blinken
+Schritt 1 deaktiviert
+Schritt 2 aktiviert
+Wenn schalter wieder zur�ckgelegt dann (Idle)
+
+Warten auf dr�cken des Knopfes
+
+Schritt 2 deaktiviert
+Hand F�hrt los
+LED Ring und Streifen blinken immer schneller
+
+Warten auf umlegen des Schalters
+
+Hand f�hrt zur�ck
+LED Ring und Streifen leuchten Gr�n
+
+Warten auf Handendschalter
+
+Counter wird erh�ht
+Druckauftrag wird abgegeben
+Schritt 3 aktiviert
+Counter wird abgespeichert
+
+Eventuelle Wartezeit bis druck fertig
+
+Schere wird vorw�rts bewegt 
+
+Warten bis Endschalter bet�tigt 
+
+Schere wird r�ckw�rts bewegt
+
+Warten bis Endschalter bet�tigt
+
+Schere stoppt
+
+zur�ck zu (Idle)
