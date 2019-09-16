@@ -1,11 +1,13 @@
 from enum import Enum
+#import lcddriver
+from multiprocessing.connection import Listener
+from multiprocessing.context import AuthenticationError
+import asyncio
+import json
+
 
 BUT_ADDR = 0x38
 LCD_ADDR = 0x3f
-
-
-
-
 
 class shrtNamePin(Enum):
     #Shutdown
@@ -48,11 +50,19 @@ class Commands(Enum):
     SchereTest = 10
     NebelTest = 11
 
+class Events(Enum):
+    Interrupt = 1
+    PhaseChange = 2
+    Exceptio = 3
+    Timeout = 4
+    Shutdown = 5
+
 #Events / Recive
 #Interrupt on channel params: channel, edge
 #program phase changed params: before, after
 #Exception raised params: Exception
 #Timeout on channel params: channel
+#shutdown
 
 #Commands / Transmit
 #Restart
@@ -66,6 +76,55 @@ class Commands(Enum):
 #hand test
 #schere test
 #nebel test params: START STOP
+
+
+address = ('localhost', 21122)
+listener = Listener(address, authkey=b'Welti')
+
+
+def json_interpret(msgstr = '{"2":[2,3,"leeil"]}'):
+    jsonobj = json.loads(msgstr)
+    for item in jsonobj:
+        return Events(int(item)), jsonobj[item]
+
+
+
+print("Waiting for connection...")
+conn = 0
+while True:
+    try:
+        conn = listener.accept()
+        break
+    except AuthenticationError:
+        print("digest reveived was wrong")
+        print("tring again")
+print( 'connection accepted from', listener.last_accepted )
+
+async def sock_task():
+    while True:
+        msg = conn.recv()
+        # do something with msg
+        print(repr(msg))
+        evcom, args = json_interpret(msg)
+        print(str(evcom.name) + " " + str(evcom.value))
+        for item in args:
+            print(item)
+        if evcom == Events.Shutdown:
+            conn.close()
+            break
+    listener.close()
+# Json string to transmit: "number of command":[Array of Arguments]
+# Json string to recieve: "number of event":[Array of Arguments]
+# e.g. {"4":[2,"test"]} | {} required
+
+async def main():
+    socktask = asyncio.create_task(sock_task())
+    await socktask
+
+
+asyncio.run(main())
+
+
 
 
 
