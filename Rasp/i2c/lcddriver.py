@@ -3,6 +3,9 @@ sys.path.append("./lib")
 
 import i2c_lib
 from time import *
+from terminal import Buttons
+from terminal import Edges
+from enum import Enum
 
 # LCD Address
 ADDRESS = 0x3f
@@ -53,6 +56,10 @@ En = 0b00000100 # Enable bit
 Rw = 0b00000010 # Read/Write bit
 Rs = 0b00000001 # Register select bit
 
+class Layer(Enum):
+   Overlay = 1
+   Underlay = 2
+
 class lcd:
    #initializes objects and lcd
    def __init__(self):
@@ -100,6 +107,7 @@ class lcd:
          self.lcd_write(0x80)
       if line == 2:
          self.lcd_write(0xC0)
+      #unnessecary 
       if line == 3:
          self.lcd_write(0x94)
       if line == 4:
@@ -112,3 +120,120 @@ class lcd:
    def lcd_clear(self):
       self.lcd_write(LCD_CLEARDISPLAY)
       self.lcd_write(LCD_RETURNHOME)
+
+
+class LcdAdv(lcd):
+
+   overlay_visible = True
+   underlay = ["", "", "", ""]
+   overlay = ["", "", "", ""]
+
+   def lcd_display_string(self, string, line, layer = Layer.Underlay):
+      if layer == Layer.Underlay:
+         self.underlay[line] = string
+      elif layer == Layer.Overlay:
+         self.overlay[line] = string
+
+      if line == 1:
+         self.lcd_write(0x80)
+      if line == 2:
+         self.lcd_write(0xC0)
+      if line == 3:
+         self.lcd_write(0x94)
+      if line == 4:
+         self.lcd_write(0xD4)
+
+      for char in string:
+         if self.overlay_visible and layer == Layer.Overlay:
+            if string != "":
+               self.lcd_write(ord(char), Rs)
+            else:
+               self.lcd_write(ord(char), Rs)
+         elif not(self.overlay_visible) and layer == Layer.Underlay:
+               self.lcd_write(ord(char), Rs)
+
+   def set_overlay_visible(self, visible = False):
+      self.overlay_visible = visible
+      self.update()
+
+   def update(self):
+      for i in range(0, 4):
+         self.lcd_display_string(self.overlay[i], i, Layer.Overlay)
+      for i in range(0, 4):
+         self.lcd_display_string(self.underlay[i], i, Layer.Underlay)
+
+
+
+   
+
+
+
+class YNMenu:
+   
+   # 0 = yes | 1 = no
+   selection = 0
+   focus = False
+   yes = "yes"
+   no = "no"
+   novisible = True
+
+   def __init__(self, advlcd, okable, yescall, nocall=None, stopcall=None):
+      self.advlcd = advlcd
+      self.okable = okable
+      self.yescall = yescall
+      self.nocall = nocall
+      self.stopcall = stopcall
+
+   def show(self):
+      todisplay = "[" + self.yes + "]"
+      if self.novisible:
+         todisplay = todisplay + self.no + " "
+      todisplay = "                "[:16-len(todisplay)]+todisplay
+      self.advlcd.lcd_display_string(todisplay, 2, Layer.Overlay)
+      self.focus = True
+
+   def change_selection(self):
+      if self.selection == 0 and self.novisible:
+         todisplay = "[" + self.yes + "]" + self.no + " "
+         todisplay = "                "[:16-len(todisplay)]+todisplay
+         self.advlcd.lcd_display_string(todisplay, 2, Layer.Overlay)
+         self.selection = 1
+      elif self.selection == 1 and self.novisible:
+         todisplay = " " + self.yes + "[" + self.no + "]"
+         todisplay = "                "[:16-len(todisplay)]+todisplay
+         self.advlcd.lcd_display_string(todisplay, 2, Layer.Overlay)
+         self.selection = 0
+
+   def hide(self):
+      self.advlcd.lcd_display_string("", 2, Layer.Overlay)
+      self.advlcd.set_overlay_visible(False)
+      self.focus = False
+
+   def user_in(self, button, edge):
+      if button == Buttons.OK:
+         if self.selection == 0:
+            if edge == Edges.RISING:
+               self.yescall(button)
+            elif self.okable == False and edge == Edges.FALLING and self.stopcall != None:
+               self.stopcall(button)
+            if self.okable == True:
+               self.hide()
+         else:
+            if self.nocall != None:
+               self.hide()
+               self.nocall()
+      elif (button == Buttons.UP or button == Buttons.DOWN) and edge == Edges.RISING:
+         self.change_selection()
+      elif button == Buttons.CANCEL and edge == Edges.RISING:
+         self.hide()
+
+   def setyesno(self, yes, no, novisible = True):
+      self.yes = yes
+      self.no = no
+      self.novisible = novisible
+
+
+      
+
+
+

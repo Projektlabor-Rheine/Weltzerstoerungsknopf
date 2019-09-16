@@ -57,6 +57,16 @@ class Events(Enum):
     Timeout = 4
     Shutdown = 5
 
+class Buttons(Enum):
+    OK = 1
+    UP = 2
+    DOWN = 3
+    CANCEL = 4
+
+class Edges(Enum):
+    RISING = 1
+    FALLING = 2
+
 #Events / Recive
 #Interrupt on channel params: channel, edge
 #program phase changed params: before, after
@@ -78,8 +88,7 @@ class Events(Enum):
 #nebel test params: START STOP
 
 
-address = ('localhost', 21122)
-listener = Listener(address, authkey=b'Welti')
+
 
 
 def json_interpret(msgstr = '{"2":[2,3,"leeil"]}'):
@@ -87,7 +96,41 @@ def json_interpret(msgstr = '{"2":[2,3,"leeil"]}'):
     for item in jsonobj:
         return Events(int(item)), jsonobj[item]
 
+# Json string to transmit: "number of command":[Array of Arguments]
+# Json string to recieve: "number of event":[Array of Arguments]
+# e.g. {"4":[2,"test"]} | {} required
+async def sock_task():
+    while True:
+        #read msg
+        msg = conn.recv()   
+        # do something with msg
+        print(repr(msg))
+        #interpret msg
+        evcom, args = json_interpret(msg)
+        print(str(evcom.name) + " " + str(evcom.value))
+        for item in args:
+            print(item)
+        if evcom == Events.Shutdown:
+            #shutdown soon
+            conn.close()
+            break
+    listener.close()
 
+async def i2c_buts():
+
+    pass
+
+
+async def main():
+    socktask = asyncio.create_task(sock_task())
+    buttask = asyncio.create_task(i2c_buts())
+    await socktask
+    await buttask
+
+
+#begin
+address = ('localhost', 21122)
+listener = Listener(address, authkey=b'Welti')
 
 print("Waiting for connection...")
 conn = 0
@@ -100,26 +143,9 @@ while True:
         print("tring again")
 print( 'connection accepted from', listener.last_accepted )
 
-async def sock_task():
-    while True:
-        msg = conn.recv()
-        # do something with msg
-        print(repr(msg))
-        evcom, args = json_interpret(msg)
-        print(str(evcom.name) + " " + str(evcom.value))
-        for item in args:
-            print(item)
-        if evcom == Events.Shutdown:
-            conn.close()
-            break
-    listener.close()
-# Json string to transmit: "number of command":[Array of Arguments]
-# Json string to recieve: "number of event":[Array of Arguments]
-# e.g. {"4":[2,"test"]} | {} required
 
-async def main():
-    socktask = asyncio.create_task(sock_task())
-    await socktask
+
+
 
 
 asyncio.run(main())
