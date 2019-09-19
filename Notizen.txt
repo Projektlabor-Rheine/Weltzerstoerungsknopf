@@ -7,3 +7,8 @@ für bessere schaltergebnisse sollte der Schalter endprellt werden
 FlipFlops sind durchgebrannt zugehörige schaltung wurde entfernt IO15 wurde direkt mit dem
 Schalter verbunden
 Zum Hochfahren muss der Schalter gedrückt werden bis der RPi die erste Konsolen ausgabe anzeigt min 5 sec.
+
+
+Add audio port:
+https://www.tinkernut.com/2017/04/adding-audio-output-raspberry-pi-zero-tinkernut-workbench/#lightbox[10497]/2/
+Pin 18 war mit dem Reset belegt wird aber nicht gebraucht. Da kann man ein Audio shield für bauen!

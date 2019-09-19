@@ -164,7 +164,54 @@ class LcdAdv(lcd):
 
 
 
-   
+class ScrollList:
+
+   selection = 0
+   scroll = 0
+
+   def __init__(self, advlcd, span, layer):
+      #span -> count of lines 4 or 2
+      self.advlcd = advlcd
+      self.layer = layer
+      self.span = span
+
+   def but_input(self, but_in):
+      if but_in == Buttons.UP:
+         if self.selection > 0:
+            self.selection-=1
+            if self.scroll == self.selection:
+               self.scroll-=1
+         self.update()
+      elif but_in == Buttons.DOWN:
+         if self.selection < len(self.items)-1:
+            self.selection+=1
+            if self.scroll+self.span == self.selection:
+               self.scroll+=1
+         self.update()
+
+   def set_items(self, items):
+      self.items = items
+      self.update()
+
+
+   def update(self):
+      for i in range(0, self.span):
+         if i+self.scroll == self.selection:
+            self.advlcd.lcd_display_string("[" + self.items[i+self.scroll].title[:14] + "]", i, Layer.Underlay)
+         else:
+            self.advlcd.lcd_display_string(" " + self.items[i+self.scroll].title[:14] + " ", i, Layer.Underlay)
+      
+
+      
+
+
+class ListItem:
+
+   def __init__(self, title, functio):
+      self.title = title
+      self.functio = functio
+
+
 
 
 
