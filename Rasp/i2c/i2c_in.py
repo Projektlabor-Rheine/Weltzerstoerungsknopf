@@ -31,16 +31,16 @@ class Buttons(Enum):
 
 class InObj():
 
-    def inEvent(self, button, edge):
+    def inEvent(self, button, edge, focus):
         pass
 
 
 class i2cin:
 
     lister = []
-    focus = 0
+    focus = []
     
-    def add_to_lister(self, in_obj):
+    def add_to_lister(self, in_obj : InObj):
         self.lister.append(in_obj)
 
     async def i2_lister(self):
@@ -55,16 +55,24 @@ class i2cin:
                 for lister in self.lister:
                     lister.inEvent(Buttons.DOWN)
             if but_in & ButMasks.BUT_OK.value > 0:
-                for lister in self.lister:
-                    lister.inEvent(Buttons.OK)
+                for i in range(0, len(self.lister)):
+                    self.lister[i].inEvent(Buttons.OK, True if i == self.focus[len(self.focus)-1] else False)
             if but_in & ButMasks.BUT_CANCEL.value > 0:
                 for lister in self.lister:
                     lister.inEvent(Buttons.CANCEL)
 
-    def getFocus(self, in_obj):
+    def getFocus(self, in_obj : InObj):
         focus = lister.index(in_obj)
-        if focus < 0:
-            focus = 0
+        if focus > 0:
+            self.focus.append(focus)
+
+    def remFocus(self, in_obj : InObj):
+        focus = lister.index(in_obj)
+        if focus > 0:
+            self.focus.remove(focus)
+            
+
+    
 
 
 

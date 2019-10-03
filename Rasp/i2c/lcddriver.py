@@ -7,6 +7,7 @@ from enum import Enum
 from i2c_in import Buttons
 from i2c_in import Edges
 from i2c_in import InObj
+from terminal import i2cIn
 
 # LCD Address
 ADDRESS = 0x3f
@@ -230,10 +231,10 @@ class YNMenu(ViewObj, InObj):
    
    # 0 = yes | 1 = no
    selection = 0
-   focus = False
    yes = "yes"
    no = "no"
    novisible = True
+   todisplay = ""
 
    def __init__(self, advlcd, okable, yescall, nocall=None, stopcall=None):
       super.__init__(advlcd, 1, Layer.Overlay)
@@ -241,33 +242,40 @@ class YNMenu(ViewObj, InObj):
       self.yescall = yescall
       self.nocall = nocall
       self.stopcall = stopcall
+      i2cIn.add_to_lister(self)
 
    def show(self):
-      todisplay = "[" + self.yes + "]"
+      self.todisplay = "[" + self.yes + "]"
       if self.novisible:
-         todisplay = todisplay + self.no + " "
-      todisplay = "                "[:16-len(todisplay)]+todisplay
-      self.advlcd.lcd_display_string(todisplay, 2, Layer.Overlay)
-      self.focus = True
+         self.todisplay = self.todisplay + self.no + " "
+      self.todisplay = "                "[:16-len(self.todisplay)]+self.todisplay
+      self.update()
+      i2cIn.getFocus(self)
 
    def change_selection(self):
       if self.selection == 0 and self.novisible:
-         todisplay = "[" + self.yes + "]" + self.no + " "
-         todisplay = "                "[:16-len(todisplay)]+todisplay
-         self.advlcd.lcd_display_string(todisplay, 2, Layer.Overlay)
+         self.todisplay = "[" + self.yes + "]" + self.no + " "
+         self.todisplay = "                "[:16-len(self.todisplay)]+self.todisplay
+         self.update()
          self.selection = 1
       elif self.selection == 1 and self.novisible:
-         todisplay = " " + self.yes + "[" + self.no + "]"
-         todisplay = "                "[:16-len(todisplay)]+todisplay
-         self.advlcd.lcd_display_string(todisplay, 2, Layer.Overlay)
+         self.todisplay = " " + self.yes + "[" + self.no + "]"
+         self.todisplay = "                "[:16-len(self.todisplay)]+self.todisplay
+         self.update()
          self.selection = 0
 
    def hide(self):
-      self.advlcd.lcd_display_string("", 2, Layer.Overlay)
+      self.todisplay = ""
+      update()
       self.advlcd.set_overlay_visible(False)
-      self.focus = False
+      i2cIn.remFocus(self)
 
-   def user_in(self, button, edge):
+
+   def update(self):
+      self.advlcd.lcd_display_string(self.todisplay, self.span, self.layer)
+
+
+   def inEvent(self, button, edge):
       if button == Buttons.OK:
          if self.selection == 0:
             if edge == Edges.RISING:

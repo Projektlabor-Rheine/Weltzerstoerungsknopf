@@ -4,7 +4,7 @@ from multiprocessing.connection import Listener
 from multiprocessing.context import AuthenticationError
 import asyncio
 import json
-
+import i2c_in
 
 BUT_ADDR = 0x38
 LCD_ADDR = 0x3f
@@ -80,7 +80,8 @@ class Events(Enum):
 #nebel test params: START STOP
 
 
-
+#I2C input
+i2cIn = i2cin()
 
 
 def json_interpret(msgstr = '{"2":[2,3,"leeil"]}'):
