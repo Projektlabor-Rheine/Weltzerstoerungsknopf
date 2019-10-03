@@ -107,14 +107,10 @@ async def sock_task():
             break
     listener.close()
 
-async def i2c_buts():
-
-    pass
-
 
 async def main():
     socktask = asyncio.create_task(sock_task())
-    buttask = asyncio.create_task(i2c_buts())
+    buttask = asyncio.create_task(i2cIn.i2_lister())
     await socktask
     await buttask
 
@@ -151,6 +147,13 @@ print( 'connection established from', listener.last_accepted )
 lcd.lcd_display_string("connection established from " + listener.last_accepted, 1, lcddriver.Layer.Overlay)
 time.sleep(1)
 lcd.lcd_clear()
+
+#Scrolllist
+sclist = lcddriver.ScrollList(lcd, 2, lcddriver.Layer.Underlay)
+sclist.add_item(lcddriver.ListItem("item no 1", None))
+sclist.add_item(lcddriver.ListItem("item no 2", None))
+sclist.add_item(lcddriver.ListItem("item no 3", None))
+sclist.add_item(lcddriver.ListItem("item no 4", None))
 
 
 asyncio.run(main())

@@ -186,6 +186,13 @@ class LcdAdv(lcd):
 
 
 
+class ListItem:
+
+   def __init__(self, title, functio):
+      self.title = title
+      self.functio = functio
+
+
 class ScrollList(ViewObj, InObj):
 
    selection = 0
@@ -209,12 +216,16 @@ class ScrollList(ViewObj, InObj):
                self.scroll+=1
          self.update()
       elif button == Buttons.OK and edge == Edges.RISING:
-         self.items[self.selection].functio()
+         if self.items[self.selection].functio() != None:
+            self.items[self.selection].functio()
 
-   def set_items(self, items):
+   def set_items(self, items : ListItem):
       self.items = items
       self.update()
 
+   def add_item(self, item : ListItem):
+      self.items.append(item)
+      self.update()
 
    def update(self):
       for i in range(0, self.span):
@@ -223,16 +234,6 @@ class ScrollList(ViewObj, InObj):
          else:
             self.advlcd.lcd_display_string(" " + self.items[i+self.scroll].title[:14] + " ", i, Layer.Underlay)
       
-
-      
-
-
-class ListItem:
-
-   def __init__(self, title, functio):
-      self.title = title
-      self.functio = functio
-
 
 
 class YNMenu(ViewObj, InObj):
