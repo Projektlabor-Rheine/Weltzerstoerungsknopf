@@ -202,6 +202,8 @@ class ScrollList(ViewObj, InObj):
             if self.scroll+self.span == self.selection:
                self.scroll+=1
          self.update()
+      elif button == Buttons.OK and edge == Edges.RISING:
+         self.items[self.selection].functio()
 
    def set_items(self, items):
       self.items = items
@@ -238,8 +240,12 @@ class YNMenu(ViewObj, InObj):
    novisible = True
    todisplay = ""
 
-   def __init__(self, advlcd, okable, yescall, nocall=None, stopcall=None):
-      super.__init__(advlcd, 1, Layer.Overlay)
+   def __init__(self, advlcd, okable, yescall, nocall=None, stopcall=None, label=""):
+      if label == "":
+         super.__init__(advlcd, 1, Layer.Overlay)
+      else:
+         super.__init__(advlcd, 2, Layer.Overlay)
+      self.label = label
       self.okable = okable
       self.yescall = yescall
       self.nocall = nocall
@@ -274,7 +280,9 @@ class YNMenu(ViewObj, InObj):
 
 
    def update(self):
-      self.advlcd.lcd_display_string(self.todisplay, self.span, self.layer)
+      if span == 2:
+         self.advlcd.lcd_display_string(self.label, 1, self.layer)
+      self.advlcd.lcd_display_string(self.todisplay, 2, self.layer)
 
 
    def inEvent(self, button, edge, focus):
