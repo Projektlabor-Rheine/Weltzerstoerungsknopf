@@ -2,7 +2,6 @@
 import time
 import smbus
 from enum import Enum
-from terminal import Buttons
 
 
 
@@ -66,15 +65,15 @@ class i2cin:
                 for i in range(0, len(self.lister)):
                     self.lister[i].inEvent(Buttons.CANCEL, Edges.RISING if (but_in & ButMasks.BUT_CANCEL > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
             #set for next iteration
-            but_state = but_in
+            self.but_state = but_in
 
     def getFocus(self, in_obj : InObj):
-        focus = lister.index(in_obj)
+        focus = self.lister.index(in_obj)
         if focus > 0:
             self.focus.append(focus)
 
     def remFocus(self, in_obj : InObj):
-        focus = lister.index(in_obj)
+        focus = self.lister.index(in_obj)
         if focus > 0:
             self.focus.remove(focus)
             

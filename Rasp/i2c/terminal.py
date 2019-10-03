@@ -5,9 +5,16 @@ from multiprocessing.context import AuthenticationError
 import asyncio
 import json
 import i2c_in
+import lcddriver
+import time
+
+
+######## CONFIG #########
 
 BUT_ADDR = 0x38
 LCD_ADDR = 0x3f
+
+######## END CONFIG ########
 
 class shrtNamePin(Enum):
     #Shutdown
@@ -37,6 +44,18 @@ class shrtNamePin(Enum):
     STEP2 = 8
     STEP3 = 25
 
+#Commands / Transmit
+#Restart
+#hand move params: FORWARD STOP BACKWARD
+#schere move params: FORWARD STOP BACKWARD
+#change output of gpio pin params: channel, out
+#get input of gpio pin params: channel recive: in
+#printer test
+#light test
+#led strip test
+#hand test
+#schere test
+#nebel test params: START STOP
 class Commands(Enum):
     Restart = 1
     MoveHand = 2
@@ -50,39 +69,18 @@ class Commands(Enum):
     SchereTest = 10
     NebelTest = 11
 
-class Events(Enum):
-    Interrupt = 1
-    PhaseChange = 2
-    Exceptio = 3
-    Timeout = 4
-    Shutdown = 5
-
-
-
 #Events / Recive
 #Interrupt on channel params: channel, edge
 #program phase changed params: before, after
 #Exception raised params: Exception
 #Timeout on channel params: channel
 #shutdown
-
-#Commands / Transmit
-#Restart
-#hand move params: FORWARD STOP BACKWARD
-#schere move params: FORWARD STOP BACKWARD
-#change output of gpio pin params: channel, out
-#get input of gpio pin params: channel recive: in
-#printer test
-#light test
-#led strip test
-#hand test
-#schere test
-#nebel test params: START STOP
-
-
-#I2C input
-i2cIn = i2cin()
-
+class Events(Enum):
+    Interrupt = 1
+    PhaseChange = 2
+    Exceptio = 3
+    Timeout = 4
+    Shutdown = 5
 
 def json_interpret(msgstr = '{"2":[2,3,"leeil"]}'):
     jsonobj = json.loads(msgstr)
@@ -120,12 +118,27 @@ async def main():
     await socktask
     await buttask
 
+###### METHODS END ########
 
-#begin
+###### PRE BEGIN #######
+
+#I2C input
+i2cIn = i2c_in.i2cin()
+#LCD
+lcd = lcddriver.LcdAdv()
+#Socket communication
 address = ('localhost', 21122)
 listener = Listener(address, authkey=b'Welti')
 
+
+###### PRE BEGIN END ######
+
+###### BEGIN ######
+
+#starting the main Welti program
+
 print("Waiting for connection...")
+lcd.lcd_display_string("Waiting for connection...", 1, lcddriver.Layer.Overlay)
 conn = 0
 while True:
     try:
@@ -134,20 +147,12 @@ while True:
     except AuthenticationError:
         print("digest reveived was wrong")
         print("tring again")
-print( 'connection accepted from', listener.last_accepted )
-
-
-
-
+print( 'connection established from', listener.last_accepted )
+lcd.lcd_display_string("connection established from " + listener.last_accepted, 1, lcddriver.Layer.Overlay)
+time.sleep(1)
+lcd.lcd_clear()
 
 
 asyncio.run(main())
 
-
-
-
-
-
-
-
-
+####### END #######

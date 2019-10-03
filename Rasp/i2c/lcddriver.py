@@ -178,6 +178,12 @@ class LcdAdv(lcd):
       for i in range(0, 4):
          self.lcd_display_string(self.underlay[i], i, Layer.Underlay)
 
+   def lcd_clear(self):
+      super().lcd_clear()
+      self.underlay = ["", "", "", ""]
+      self.overlay = ["", "", "", ""]
+
+
 
 
 class ScrollList(ViewObj, InObj):
@@ -229,8 +235,6 @@ class ListItem:
 
 
 
-
-
 class YNMenu(ViewObj, InObj):
    
    # 0 = yes | 1 = no
@@ -240,6 +244,7 @@ class YNMenu(ViewObj, InObj):
    novisible = True
    todisplay = ""
 
+   # okable -> if the menu should close after pressing yes
    def __init__(self, advlcd, okable, yescall, nocall=None, stopcall=None, label=""):
       if label == "":
          super.__init__(advlcd, 1, Layer.Overlay)
@@ -274,13 +279,13 @@ class YNMenu(ViewObj, InObj):
 
    def hide(self):
       self.todisplay = ""
-      update()
+      self.update()
       self.advlcd.set_overlay_visible(False)
       i2cIn.remFocus(self)
 
 
    def update(self):
-      if span == 2:
+      if self.span == 2:
          self.advlcd.lcd_display_string(self.label, 1, self.layer)
       self.advlcd.lcd_display_string(self.todisplay, 2, self.layer)
 
