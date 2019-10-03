@@ -3,9 +3,10 @@ sys.path.append("./lib")
 
 import i2c_lib
 from time import *
-from terminal import Buttons
-from terminal import Edges
 from enum import Enum
+from i2c_in import Buttons
+from i2c_in import Edges
+from i2c_in import InObj
 
 # LCD Address
 ADDRESS = 0x3f
@@ -56,9 +57,23 @@ En = 0b00000100 # Enable bit
 Rw = 0b00000010 # Read/Write bit
 Rs = 0b00000001 # Register select bit
 
+#Classes
 class Layer(Enum):
    Overlay = 1
    Underlay = 2
+
+class ViewObj():
+
+   def __init__(self, advlcd, span, layer):
+      #span -> count of lines 4 or 2
+      self.advlcd = advlcd
+      self.layer = layer
+      self.span = span
+   
+   def update(self):
+      pass
+
+
 
 class lcd:
    #initializes objects and lcd
@@ -164,16 +179,12 @@ class LcdAdv(lcd):
 
 
 
-class ScrollList:
+class ScrollList(ViewObj):
 
    selection = 0
    scroll = 0
 
-   def __init__(self, advlcd, span, layer):
-      #span -> count of lines 4 or 2
-      self.advlcd = advlcd
-      self.layer = layer
-      self.span = span
+   #Perhaps insert init here
 
    def but_input(self, but_in):
       if but_in == Buttons.UP:
@@ -215,7 +226,7 @@ class ListItem:
 
 
 
-class YNMenu:
+class YNMenu(ViewObj, InObj):
    
    # 0 = yes | 1 = no
    selection = 0
@@ -225,7 +236,7 @@ class YNMenu:
    novisible = True
 
    def __init__(self, advlcd, okable, yescall, nocall=None, stopcall=None):
-      self.advlcd = advlcd
+      super.__init__(advlcd, 1, Layer.Overlay)
       self.okable = okable
       self.yescall = yescall
       self.nocall = nocall

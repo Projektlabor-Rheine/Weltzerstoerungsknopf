@@ -57,15 +57,7 @@ class Events(Enum):
     Timeout = 4
     Shutdown = 5
 
-class Buttons(Enum):
-    OK = 1
-    UP = 2
-    DOWN = 3
-    CANCEL = 4
 
-class Edges(Enum):
-    RISING = 1
-    FALLING = 2
 
 #Events / Recive
 #Interrupt on channel params: channel, edge

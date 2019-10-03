@@ -21,13 +21,13 @@ class i2cin:
         if but_in & ButMasks.BUT_UP.value > 0:
             print("up")
             pass
-        elif but_in & ButMasks.BUT_DOWN.value > 0:
+        if but_in & ButMasks.BUT_DOWN.value > 0:
             print("down")
             pass
-        elif but_in & ButMasks.BUT_OK.value > 0:
+        if but_in & ButMasks.BUT_OK.value > 0:
             print("ok")
             pass
-        elif but_in & ButMasks.BUT_CANCEL.value > 0:
+        if but_in & ButMasks.BUT_CANCEL.value > 0:
             print("cancel")
             pass
 
@@ -42,8 +42,7 @@ inp.i2_lister(0b10001111)
 
 #WORKS NICELY
 
-
-
-
+#And with multiple flags set
+inp.i2_lister(0b10101111)
 
 
