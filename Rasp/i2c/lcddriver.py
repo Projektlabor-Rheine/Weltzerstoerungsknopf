@@ -180,21 +180,23 @@ class LcdAdv(lcd):
 
 
 
-class ScrollList(ViewObj):
+class ScrollList(ViewObj, InObj):
 
    selection = 0
    scroll = 0
 
    #Perhaps insert init here
 
-   def but_input(self, but_in):
-      if but_in == Buttons.UP:
+   def inEvent(self, button, edge, focus):
+      if focus == False:
+         return
+      if button == Buttons.UP and edge == Edges.RISING:
          if self.selection > 0:
             self.selection-=1
             if self.scroll == self.selection:
                self.scroll-=1
          self.update()
-      elif but_in == Buttons.DOWN:
+      elif button == Buttons.DOWN and edge == Edges.RISING:
          if self.selection < len(self.items)-1:
             self.selection+=1
             if self.scroll+self.span == self.selection:
@@ -275,7 +277,9 @@ class YNMenu(ViewObj, InObj):
       self.advlcd.lcd_display_string(self.todisplay, self.span, self.layer)
 
 
-   def inEvent(self, button, edge):
+   def inEvent(self, button, edge, focus):
+      if focus == False:
+         return
       if button == Buttons.OK:
          if self.selection == 0:
             if edge == Edges.RISING:
