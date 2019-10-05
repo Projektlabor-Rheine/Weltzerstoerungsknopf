@@ -38,6 +38,7 @@ class i2cin:
 
     lister = []
     focus = []
+    lock = [False, False, False, False]
     #Buttons: UP, DOWN, OK, CANCEL
     but_state = 0
     
@@ -52,22 +53,22 @@ class i2cin:
             but_in = but_in >> 4
             # dif_but_in represents the buttons that have changed in binary
             dif_but_in = self.but_state ^ but_in
-            if dif_but_in & ButMasks.BUT_UP.value > 0:
-                print("UP")          
+            if dif_but_in & ButMasks.BUT_UP.value > 0: 
                 for i in range(0, len(self.lister)):
                     self.lister[i].inEvent(Buttons.UP, Edges.RISING if (but_in & ButMasks.BUT_UP.value > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
+                time.sleep(0.15)
             if dif_but_in & ButMasks.BUT_DOWN.value > 0:
-                print("DOWN")
                 for i in range(0, len(self.lister)):
                     self.lister[i].inEvent(Buttons.DOWN, Edges.RISING if (but_in & ButMasks.BUT_DOWN.value > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
+                time.sleep(0.15)
             if dif_but_in & ButMasks.BUT_OK.value > 0:
-                print("OK")
                 for i in range(0, len(self.lister)):
                     self.lister[i].inEvent(Buttons.OK, Edges.RISING if (but_in & ButMasks.BUT_OK.value > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
+                time.sleep(0.15)
             if dif_but_in & ButMasks.BUT_CANCEL.value > 0:
-                print("CANCEL")
                 for i in range(0, len(self.lister)):
                     self.lister[i].inEvent(Buttons.CANCEL, Edges.RISING if (but_in & ButMasks.BUT_CANCEL.value > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
+                time.sleep(0.15)
             #set for next iteration
             self.but_state = but_in
 

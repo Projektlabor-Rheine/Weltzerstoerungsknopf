@@ -135,6 +135,7 @@ def yncall(command, comargs):
         print("add to fifo " + str(command.name))
 
 def scroll_item_eve(label, command, comargs=0):
+    print("open menu")
     menu = lcddriver.YNMenu(lcd, True, yncall, yescallargs=(command, comargs), label=label)
     menu.show()
 

@@ -211,7 +211,6 @@ class ScrollList(ViewObj, InObj):
       self.advlcd.i2cIn.getFocus(self)
 
    def inEvent(self, button, edge, focus):
-      print(focus)
       if focus == False:
          return
       if button == Buttons.UP and edge == Edges.RISING:
@@ -314,20 +313,21 @@ class YNMenu(ViewObj, InObj):
       if self.novisible:
          self.todisplay = self.todisplay + self.no + " "
       self.todisplay = "                "[:16-len(self.todisplay)]+self.todisplay
+      self.advlcd.set_overlay_visible(True)
       self.update()
       self.advlcd.i2cIn.getFocus(self)
 
    def change_selection(self):
-      if self.selection == 0 and self.novisible:
+      if self.selection == 1 and self.novisible:
          self.todisplay = "[" + self.yes + "]" + self.no + " "
          self.todisplay = "                "[:16-len(self.todisplay)]+self.todisplay
          self.update()
-         self.selection = 1
-      elif self.selection == 1 and self.novisible:
+         self.selection = 0
+      elif self.selection == 0 and self.novisible:
          self.todisplay = " " + self.yes + "[" + self.no + "]"
          self.todisplay = "                "[:16-len(self.todisplay)]+self.todisplay
          self.update()
-         self.selection = 0
+         self.selection = 1
 
    def hide(self):
       self.todisplay = ""
@@ -343,21 +343,24 @@ class YNMenu(ViewObj, InObj):
 
 
    def inEvent(self, button, edge, focus):
+      
       if focus == False:
          return
       if button == Buttons.OK:
+         print(edge.name)
          if self.selection == 0:
             if edge == Edges.RISING:
                self.yescall(*self.yescallargs)
+               if self.okable == True:
+                  self.hide()
             elif self.okable == False and edge == Edges.FALLING and self.stopcall != None:
                self.stopcall(*self.stopcallargs)
-            if self.okable == True:
-               self.hide()
          else:
             if self.nocall != None:
                self.hide()
                self.nocall(*self.nocallargs)
       elif (button == Buttons.UP or button == Buttons.DOWN) and edge == Edges.RISING:
+         print(self.selection)
          self.change_selection()
       elif button == Buttons.CANCEL and edge == Edges.RISING:
          self.hide()
