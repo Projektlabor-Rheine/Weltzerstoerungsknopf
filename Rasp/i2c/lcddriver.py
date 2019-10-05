@@ -193,9 +193,10 @@ class LcdAdv(lcd):
 
 class ListItem:
 
-   def __init__(self, title, functio):
+   def __init__(self, title, functio, functionargs=0):
       self.title = title
       self.functio = functio
+      self.functionargs = functionargs
 
 
 class ScrollList(ViewObj, InObj):
@@ -227,7 +228,7 @@ class ScrollList(ViewObj, InObj):
          self.update()
       elif button == Buttons.OK and edge == Edges.RISING:
          if self.items[self.selection].functio != None:
-            self.items[self.selection].functio()
+            self.items[self.selection].functio(*self.items[self.selection].functionargs)
 
    def set_items(self, items : ListItem):
       self.items = items
@@ -293,17 +294,20 @@ class YNMenu(ViewObj, InObj):
    todisplay = ""
 
    # okable -> if the menu should close after pressing yes
-   def __init__(self, advlcd, okable, yescall, nocall=None, stopcall=None, label=""):
+   def __init__(self, advlcd, okable, yescall, yescallargs=None, nocall=None, nocallargs=None, stopcall=None, stopcallargs=None, label=""):
       if label == "":
-         super.__init__(advlcd, 1, Layer.Overlay)
+         super().__init__(advlcd, 1, Layer.Overlay)
       else:
-         super.__init__(advlcd, 2, Layer.Overlay)
+         super().__init__(advlcd, 2, Layer.Overlay)
       self.label = label
       self.okable = okable
       self.yescall = yescall
       self.nocall = nocall
       self.stopcall = stopcall
       self.advlcd.i2cIn.add_to_lister(self)
+      self.yescallargs = yescallargs
+      self.nocallargs = nocallargs
+      self.stopcallargs = stopcallargs
 
    def show(self):
       self.todisplay = "[" + self.yes + "]"
@@ -344,15 +348,15 @@ class YNMenu(ViewObj, InObj):
       if button == Buttons.OK:
          if self.selection == 0:
             if edge == Edges.RISING:
-               self.yescall(button)
+               self.yescall(*self.yescallargs)
             elif self.okable == False and edge == Edges.FALLING and self.stopcall != None:
-               self.stopcall(button)
+               self.stopcall(*self.stopcallargs)
             if self.okable == True:
                self.hide()
          else:
             if self.nocall != None:
                self.hide()
-               self.nocall()
+               self.nocall(*self.nocallargs)
       elif (button == Buttons.UP or button == Buttons.DOWN) and edge == Edges.RISING:
          self.change_selection()
       elif button == Buttons.CANCEL and edge == Edges.RISING:

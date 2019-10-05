@@ -7,6 +7,7 @@ import json
 import i2c_in
 import lcddriver
 import time
+import queue
 
 
 ######## CONFIG #########
@@ -125,6 +126,17 @@ lcd = lcddriver.LcdAdv(i2cIn)
 #Socket communication
 address = ('localhost', 21122)
 listener = Listener(address, authkey=b'Welti')
+#Fifo buffer
+fifo = queue.Queue()
+
+def yncall(command, comargs):
+    print("yncall")
+    if isinstance(command, Commands):
+        print("add to fifo " + str(command.name))
+
+def scroll_item_eve(label, command, comargs=0):
+    menu = lcddriver.YNMenu(lcd, True, yncall, yescallargs=(command, comargs), label=label)
+    menu.show()
 
 
 ###### PRE BEGIN END ######
@@ -150,10 +162,15 @@ lcd.lcd_clear()
 
 #Scrolllist
 sclist = lcddriver.ScrollList(lcd, 2, lcddriver.Layer.Underlay)
-sclist.add_item(lcddriver.ListItem("item no 1", None))
-sclist.add_item(lcddriver.ListItem("item no 2", None))
-sclist.add_item(lcddriver.ListItem("item no 3", None))
-sclist.add_item(lcddriver.ListItem("item no 4", None))
+sclist.add_item(lcddriver.ListItem("Eventlog", None))
+sclist.add_item(lcddriver.ListItem("Handtest", scroll_item_eve, functionargs=("Start LEDtest", Commands.HandTest)))
+sclist.add_item(lcddriver.ListItem("Scherentest", scroll_item_eve, functionargs=("Strt Scherentest", Commands.SchereTest)))
+sclist.add_item(lcddriver.ListItem("Printertest", scroll_item_eve, functionargs=("Strt Printertest", Commands.PrinterTest)))
+sclist.add_item(lcddriver.ListItem("Lighttest", None))
+sclist.add_item(lcddriver.ListItem("LED-Striptest", scroll_item_eve, functionargs=("Start LEDtest", Commands.LEDTest)))
+sclist.add_item(lcddriver.ListItem("Nebeltest", scroll_item_eve, functionargs=("Start Nebeltest", Commands.NebelTest)))
+sclist.add_item(lcddriver.ListItem("Restart", scroll_item_eve, functionargs=("Sure to Restart?", Commands.Restart)))
+
 
 
 asyncio.run(main())
