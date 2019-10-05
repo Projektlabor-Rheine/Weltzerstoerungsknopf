@@ -53,28 +53,42 @@ class i2cin:
             # dif_but_in represents the buttons that have changed in binary
             dif_but_in = self.but_state ^ but_in
             if dif_but_in & ButMasks.BUT_UP.value > 0:
+                print("UP")          
                 for i in range(0, len(self.lister)):
-                    self.lister[i].inEvent(Buttons.UP, Edges.RISING if (but_in & ButMasks.BUT_UP > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
+                    self.lister[i].inEvent(Buttons.UP, Edges.RISING if (but_in & ButMasks.BUT_UP.value > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
             if dif_but_in & ButMasks.BUT_DOWN.value > 0:
+                print("DOWN")
                 for i in range(0, len(self.lister)):
-                    self.lister[i].inEvent(Buttons.DOWN, Edges.RISING if (but_in & ButMasks.BUT_DOWN > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
+                    self.lister[i].inEvent(Buttons.DOWN, Edges.RISING if (but_in & ButMasks.BUT_DOWN.value > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
             if dif_but_in & ButMasks.BUT_OK.value > 0:
+                print("OK")
                 for i in range(0, len(self.lister)):
-                    self.lister[i].inEvent(Buttons.OK, Edges.RISING if (but_in & ButMasks.BUT_OK > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
+                    self.lister[i].inEvent(Buttons.OK, Edges.RISING if (but_in & ButMasks.BUT_OK.value > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
             if dif_but_in & ButMasks.BUT_CANCEL.value > 0:
+                print("CANCEL")
                 for i in range(0, len(self.lister)):
-                    self.lister[i].inEvent(Buttons.CANCEL, Edges.RISING if (but_in & ButMasks.BUT_CANCEL > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
+                    self.lister[i].inEvent(Buttons.CANCEL, Edges.RISING if (but_in & ButMasks.BUT_CANCEL.value > 0) else Edges.FALLING, True if i == self.focus[len(self.focus)-1] else False)
             #set for next iteration
             self.but_state = but_in
 
     def getFocus(self, in_obj : InObj):
-        focus = self.lister.index(in_obj)
-        if focus > 0:
+        focus = 0
+        try:
+            focus = self.lister.index(in_obj)
+        except ValueError:
+            print("Add to inObj to lister first")
+            return
+        try:
+            isalready = self.focus.index(focus)
+            self.focus.pop(isalready)
             self.focus.append(focus)
+        except ValueError:
+            self.focus.append(focus)
+            
 
     def remFocus(self, in_obj : InObj):
         focus = self.lister.index(in_obj)
-        if focus > 0:
+        if focus > -1:
             self.focus.remove(focus)
             
 

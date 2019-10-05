@@ -1,8 +1,12 @@
 #!/usr/bin/python
 import time
+import smbus
 from enum import Enum
 
+ADDRESS = 0x38
+bus = smbus.SMBus(1)
 
+print(bin(bus.read_byte(ADDRESS)))
 
 class ButMasks(Enum):
     BUT_UP = 0b0001
@@ -44,5 +48,11 @@ inp.i2_lister(0b10001111)
 
 #And with multiple flags set
 inp.i2_lister(0b10101111)
+
+while True:
+    time.sleep(0.05)
+    inp.i2_lister(bus.read_byte(ADDRESS))
+
+
 
 

@@ -204,9 +204,13 @@ class ScrollList(ViewObj, InObj):
    scroll = 0
    items = []
 
-   #Perhaps insert init here
+   def __init__(self, advlcd, span, layer):
+      super().__init__(advlcd, span, layer)
+      self.advlcd.i2cIn.add_to_lister(self)
+      self.advlcd.i2cIn.getFocus(self)
 
    def inEvent(self, button, edge, focus):
+      print(focus)
       if focus == False:
          return
       if button == Buttons.UP and edge == Edges.RISING:
@@ -222,7 +226,7 @@ class ScrollList(ViewObj, InObj):
                self.scroll+=1
          self.update()
       elif button == Buttons.OK and edge == Edges.RISING:
-         if self.items[self.selection].functio() != None:
+         if self.items[self.selection].functio != None:
             self.items[self.selection].functio()
 
    def set_items(self, items : ListItem):
