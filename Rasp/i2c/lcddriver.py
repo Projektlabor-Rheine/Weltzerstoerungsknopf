@@ -7,7 +7,6 @@ from enum import Enum
 from i2c_in import Buttons
 from i2c_in import Edges
 from i2c_in import InObj
-from terminal import i2cIn
 
 # LCD Address
 ADDRESS = 0x3f
@@ -144,11 +143,17 @@ class LcdAdv(lcd):
    underlay = ["", "", "", ""]
    overlay = ["", "", "", ""]
 
+
+   def __init__(self, i2cIn):
+      super().__init__()
+      self.i2cIn = i2cIn
+      
+
    def lcd_display_string(self, string, line, layer = Layer.Underlay):
       if layer == Layer.Underlay:
-         self.underlay[line] = string
+         self.underlay[line-1] = string
       elif layer == Layer.Overlay:
-         self.overlay[line] = string
+         self.overlay[line-1] = string
 
       if line == 1:
          self.lcd_write(0x80)
@@ -159,15 +164,15 @@ class LcdAdv(lcd):
       if line == 4:
          self.lcd_write(0xD4)
 
-      for char in string:
-         if self.overlay_visible and layer == Layer.Overlay:
-            if string != "":
-               self.lcd_write(ord(char), Rs)
-            else:
-               self.lcd_write(ord(char), Rs)
-         elif not(self.overlay_visible) and layer == Layer.Underlay:
-               self.lcd_write(ord(char), Rs)
-
+      
+      
+      if self.overlay_visible and self.overlay[line-1] != "":
+         for char in self.overlay[line-1]:
+            self.lcd_write(ord(char), Rs)
+      else:
+         for char in self.underlay[line-1]:
+            self.lcd_write(ord(char), Rs)
+      
    def set_overlay_visible(self, visible = False):
       self.overlay_visible = visible
       self.update()
@@ -197,6 +202,7 @@ class ScrollList(ViewObj, InObj):
 
    selection = 0
    scroll = 0
+   items = []
 
    #Perhaps insert init here
 
@@ -228,11 +234,16 @@ class ScrollList(ViewObj, InObj):
       self.update()
 
    def update(self):
-      for i in range(0, self.span):
-         if i+self.scroll == self.selection:
-            self.advlcd.lcd_display_string("[" + self.items[i+self.scroll].title[:14] + "]", i, Layer.Underlay)
+      for i in range(0, self.span if self.span < len(self.items) else len(self.items)):
+         todisplay = self.items[i+self.scroll].title
+         if len(todisplay) > 14:
+            todisplay = self.items[i+self.scroll].title[:14]
          else:
-            self.advlcd.lcd_display_string(" " + self.items[i+self.scroll].title[:14] + " ", i, Layer.Underlay)
+            todisplay += "              "[:14-len(todisplay)]
+         if i+self.scroll == self.selection:
+            self.advlcd.lcd_display_string("[" + todisplay + "]", i, Layer.Underlay)
+         else:
+            self.advlcd.lcd_display_string(" " + todisplay + " ", i, Layer.Underlay)
       
 
 class TextList(ViewObj, InObj):
@@ -288,7 +299,7 @@ class YNMenu(ViewObj, InObj):
       self.yescall = yescall
       self.nocall = nocall
       self.stopcall = stopcall
-      i2cIn.add_to_lister(self)
+      self.advlcd.i2cIn.add_to_lister(self)
 
    def show(self):
       self.todisplay = "[" + self.yes + "]"
@@ -296,7 +307,7 @@ class YNMenu(ViewObj, InObj):
          self.todisplay = self.todisplay + self.no + " "
       self.todisplay = "                "[:16-len(self.todisplay)]+self.todisplay
       self.update()
-      i2cIn.getFocus(self)
+      self.advlcd.i2cIn.getFocus(self)
 
    def change_selection(self):
       if self.selection == 0 and self.novisible:
@@ -314,7 +325,7 @@ class YNMenu(ViewObj, InObj):
       self.todisplay = ""
       self.update()
       self.advlcd.set_overlay_visible(False)
-      i2cIn.remFocus(self)
+      self.advlcd.i2cIn.remFocus(self)
 
 
    def update(self):

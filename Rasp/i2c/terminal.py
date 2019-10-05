@@ -85,8 +85,8 @@ class Events(Enum):
 def json_interpret(msgstr = '{"2":[2,3,"leeil"]}'):
     jsonobj = json.loads(msgstr)
     for item in jsonobj:
-        return Events(int(item)), jsonobj[item]
-
+        return (Events(int(item)), jsonobj[item])
+    
 # Json string to transmit: "number of command":[Array of Arguments]
 # Json string to recieve: "number of event":[Array of Arguments]
 # e.g. {"4":[2,"test"]} | {} required
@@ -121,7 +121,7 @@ async def main():
 #I2C input
 i2cIn = i2c_in.i2cin()
 #LCD
-lcd = lcddriver.LcdAdv()
+lcd = lcddriver.LcdAdv(i2cIn)
 #Socket communication
 address = ('localhost', 21122)
 listener = Listener(address, authkey=b'Welti')
@@ -144,7 +144,7 @@ while True:
         print("digest reveived was wrong")
         print("tring again")
 print( 'connection established from', listener.last_accepted )
-lcd.lcd_display_string("connection established from " + listener.last_accepted, 1, lcddriver.Layer.Overlay)
+lcd.lcd_display_string("connection established from " + str(listener.last_accepted), 1, lcddriver.Layer.Overlay)
 time.sleep(1)
 lcd.lcd_clear()
 
