@@ -118,14 +118,14 @@ class lcd:
 
    # put string function
    def lcd_display_string(self, string, line):
-      if line == 1:
+      if line == 0:
          self.lcd_write(0x80)
-      if line == 2:
+      if line == 1:
          self.lcd_write(0xC0)
       #unnessecary 
-      if line == 3:
+      if line == 2:
          self.lcd_write(0x94)
-      if line == 4:
+      if line == 3:
          self.lcd_write(0xD4)
 
       for char in string:
@@ -151,26 +151,26 @@ class LcdAdv(lcd):
 
    def lcd_display_string(self, string, line, layer = Layer.Underlay):
       if layer == Layer.Underlay:
-         self.underlay[line-1] = string
+         self.underlay[line] = string
       elif layer == Layer.Overlay:
-         self.overlay[line-1] = string
+         self.overlay[line] = string
 
-      if line == 1:
+      if line == 0:
          self.lcd_write(0x80)
-      if line == 2:
+      if line == 1:
          self.lcd_write(0xC0)
-      if line == 3:
+      if line == 2:
          self.lcd_write(0x94)
-      if line == 4:
+      if line == 3:
          self.lcd_write(0xD4)
 
       
       
-      if self.overlay_visible and self.overlay[line-1] != "":
-         for char in self.overlay[line-1]:
+      if self.overlay_visible and self.overlay[line] != "":
+         for char in self.overlay[line]:
             self.lcd_write(ord(char), Rs)
       else:
-         for char in self.underlay[line-1]:
+         for char in self.underlay[line]:
             self.lcd_write(ord(char), Rs)
       
    def set_overlay_visible(self, visible = False):
@@ -266,9 +266,9 @@ class TextList(ViewObj, InObj):
 
    def update(self):
       for i in range(0, len(self.text_list)):
-         self.advlcd.lcd_display_string(self.text_list[i], i+1, self.layer)
+         self.advlcd.lcd_display_string(self.text_list[i], i, self.layer)
       for i in range(len(self.text_list), self.span):
-         self.advlcd.lcd_display_string("", i+1, self.layer)
+         self.advlcd.lcd_display_string("", i, self.layer)
 
    def append_text(self, text_line):
       self.text_list.append(text_line)
@@ -330,8 +330,8 @@ class YNMenu(ViewObj, InObj):
 
    def update(self):
       if self.span == 2:
-         self.advlcd.lcd_display_string(self.label, 1, self.layer)
-      self.advlcd.lcd_display_string(self.todisplay, 2, self.layer)
+         self.advlcd.lcd_display_string(self.label, 0, self.layer)
+      self.advlcd.lcd_display_string(self.todisplay, 1, self.layer)
 
 
    def inEvent(self, button, edge, focus):
