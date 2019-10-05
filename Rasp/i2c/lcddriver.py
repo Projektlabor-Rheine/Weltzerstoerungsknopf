@@ -235,6 +235,38 @@ class ScrollList(ViewObj, InObj):
             self.advlcd.lcd_display_string(" " + self.items[i+self.scroll].title[:14] + " ", i, Layer.Underlay)
       
 
+class TextList(ViewObj, InObj):
+
+
+   text_list = []
+
+   def __init__(self, advlcd, span, layer):
+      #span -> count of lines 4 or 2
+      self.advlcd = advlcd
+      self.layer = layer
+      self.span = span
+
+   def inEvent(self, button, edge, focus):
+      if focus == False:
+         return
+      if (button == Buttons.OK and edge == Edges.RISING) or (button == Buttons.CANCEL and edge == Edges.RISING):
+         self.text_list = []
+         self.update()
+
+   def update(self):
+      for i in range(0, len(self.text_list)):
+         self.advlcd.lcd_display_string(self.text_list[i], i+1, self.layer)
+      for i in range(len(self.text_list), self.span):
+         self.advlcd.lcd_display_string("", i+1, self.layer)
+
+   def append_text(self, text_line):
+      self.text_list.append(text_line)
+      if len(self.text_list) > self.span:
+         self.text_list.pop(0)
+      self.update()
+
+
+
 
 class YNMenu(ViewObj, InObj):
    
